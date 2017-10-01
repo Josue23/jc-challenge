@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <h1>Candidatos</h1>
+
+  <a href="{% url 'core:candidate_add' %}">
+      <button type="button" class="btn btn-primary">
+        <span class="fa fa-user-plus"></span> Cadastrar
+    </button>
+  </a>
+
+  {% if candidates %}
+    <table class="table">
+        <thead>
+          <tr>
+            <th> Nome </th>
+            <th> E-mail </th>
+            <th> Telefone </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for candidate in candidates %}
+            <tr>
+              <td><span class="fa fa-user"></span> {{ candidate.first_name }}</td>
+              <td><span class="fa fa-envelope"></span> {{ candidate.email  }}</td>
+              <td><span class="fa fa-phone"></span> {{ candidate.phone }}</td>
+
+              <!-- edit candidate -->
+              <td><a href="{% url 'core:candidate_edit' candidate.pk %}">
+                  <button id="cand_{{ candidate.pk }}"  type="button" class="btn btn-success js-cand-edit">
+                      <span class="fa fa-edit"></span> Editar
+                  </button>
+              </a></td>
+
+              <!-- delete candidate-->
+              <td id="cand_{{ candidate.pk }}" class="js-cand-delete" data-id="{{ candidate.pk }}">
+
+                <a href="{% url 'core:candidate_delete' candidate.pk %}">
+                  <button id="cand_{{ candidate.pk }}"  type="button" class="btn btn-danger js-cand-delete">
+                      <span class="fa fa-user-times"></span> Deletar
+                  </button>
+              </a>
+
+            </tr>
+          {% endfor %}
+        </tbody>
+  {% else %}
+    <p class="lead alert alert-warning">Nenhum item na lista</p>
+  {% endif %}
+
+<script src="{% static "js/ajax-setup.js" %}"></script> 
+
+<script>
+  $('.js-cand-edit').on('click', function(e) {
+    e.preventDefault();
+    let url = $(this).find('a').attr('href');
+    let pk = $(this).data('id');
+    let item = $(this).parent();
+    // para o edit
+    let username = $(this).parent().children('nth-childen(2)')
+    let first_name = $(this).parent().children('nth-childen(3)')
+    let last_name = $(this).parent().children('nth-childen(4)')
+    let email = $(this).parent().children('nth-childen(5)')
+    let password = $(this).parent().children('nth-childen(6)')
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        pk: pk,
+        username: username,
+        first_name: first_name,
+        last_name: last_name,
+        email: email,
+        password: password,
+      },
+      success: function(response) {
+        item.remove();
+        console.log(response);
+      },
+      error: function(xhr, errmsg, err) {
+        console.log('Erro');
+      },
+    })
+  });
+</script>
+
+<script>
+  $('.js-cand-delete').on('click', function(e) {
+    e.preventDefault();
+    let item = $(this).parent();
+    let url = $(this).find('a').attr('href');
+    let pk = $(this).data('id');
+    $.ajax({
+      url: url,
+      type: 'POST',
+      data: {
+        pk: pk,
+      },
+      success: function(response) {
+        item.remove();
+        console.log(response);
+      },
+      error: function(xhr, errmsg, err) {
+        console.log('Erro');
+      },
+    })
+  });
+</script>
+{% endblock content %}
