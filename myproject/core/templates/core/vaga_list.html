@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap %}
+
+{% block content %}
+  <h1>Vagas</h1>
+
+  <a href="{% url 'core:vaga_add' %}" id="vaga_add">
+      <button type="button" class="btn btn-primary">
+        <span class="fa fa-plus"></span> Vagas
+    </button>
+  </a>
+
+  {% if vagas %}
+    <table class="table" >
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th> Empresa </th>
+            <th>Pretensão Mínima </th>
+            <th>Pretensão Máxima </th>
+            <th>Experiência</th>
+            <th>Escolaridade</th>
+            <th>Distância</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for vaga in vagas %}
+            <tr>
+              <td><span class="fa fa-user"></span> {{ vaga.name}}</td>
+              <td><span class=""></span> {{ vaga.empresa }}</td>
+              <td><span class="fa fa-envelope"></span> {{ vaga.min_salario  }}</td>
+              <td><span class="fa fa-phone"></span> {{ vaga.max_salario }}</td>
+              <td><span class=""></span> {{ vaga.experiencia  }}</td>
+              <td><span class=""></span> {{ vaga.escolaridade }}</td>
+              <td><span class=""></span> {{ vaga.distancia }}</td>
+
+
+                <a href="{% url 'core:vaga_delete' vaga.pk %}">
+                  <button id="cand_{{ vaga.pk }}"  type="button" class="btn btn-danger js-vaga-delete">
+                      <span class="fa fa-times"></span> Deletar
+                  </button>
+              </a>
+            </tr>
+          {% endfor %}
+        </tbody>
+        
+  {% else %}
+    <p class="lead alert alert-warning">Nenhuma vaga cadastrada</p>
+  {% endif %}
+
+<script src="{% static "js/ajax-setup.js" %}"></script>
+
+{% endblock content %}

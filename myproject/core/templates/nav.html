@@ -7,8 +7,14 @@
   
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li class="active">
+      <li class="">
+        <a href="{% url 'core:empresa_list' %}">Empresas</a>
+      </li>
+      <li class="">
         <a href="{% url 'core:candidate_list' %}">Candidatos</a>
+      </li>
+      <li class="">
+        <a href="{% url 'core:vaga_list' %}">Vagas</a>
       </li>
     </ul>
   </div>

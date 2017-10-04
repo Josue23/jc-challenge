@@ -1,38 +1,43 @@
 {% extends "base.html" %}
 {% load static %}
+{% load bootstrap %}
 
 {% block content %}
   <h1>Candidatos</h1>
 
-  <a href="{% url 'core:candidate_add' %}">
+  <a href="{% url 'core:candidate_add' %}" id="candidate_add">
       <button type="button" class="btn btn-primary">
         <span class="fa fa-user-plus"></span> Cadastrar
     </button>
   </a>
 
   {% if candidates %}
-    <table class="table">
+    <table class="table" >
         <thead>
           <tr>
+            <th>Username</th>
             <th> Nome </th>
+            <th>Sobrenome</th>
             <th> E-mail </th>
             <th> Telefone </th>
+            <th>Senha</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
           {% for candidate in candidates %}
             <tr>
-              <td><span class="fa fa-user"></span> {{ candidate.first_name }}</td>
+              <td><span class="fa fa-user"></span> {{ candidate.username}}</td>
+              <td><span class=""></span> {{ candidate.first_name }}</td>
+              <td><span class=""></span> {{ candidate.last_name  }}</td>
               <td><span class="fa fa-envelope"></span> {{ candidate.email  }}</td>
               <td><span class="fa fa-phone"></span> {{ candidate.phone }}</td>
+              <td><span class=""></span> {{ candidate.password }}</td>
 
               <!-- edit candidate -->
-              <td><a href="{% url 'core:candidate_edit' candidate.pk %}">
-                  <button id="cand_{{ candidate.pk }}"  type="button" class="btn btn-success js-cand-edit">
-                      <span class="fa fa-edit"></span> Editar
-                  </button>
-              </a></td>
+            <td data-id="{{ candidate.pk }}" data-url="{% url 'core:candidate_edit' candidate.pk %}" class="js-cand-edit">
+             <a id="cand_{{ candidate.pk }}" href="#modal-candidate-edit" role="button" class="btn" data-toggle="modal"><span class="fa fa-edit"></span> Editar</a>
+           </td>
 
               <!-- delete candidate-->
               <td id="cand_{{ candidate.pk }}" class="js-cand-delete" data-id="{{ candidate.pk }}">
@@ -47,46 +52,106 @@
           {% endfor %}
         </tbody>
   {% else %}
-    <p class="lead alert alert-warning">Nenhum item na lista</p>
+    <p class="lead alert alert-warning">Nenhum candidato cadastrado</p>
   {% endif %}
 
-<script src="{% static "js/ajax-setup.js" %}"></script> 
+
+      
+      
+      <div class="modal fade" id="modal-candidate-edit" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+               
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+              </button>
+              <h4 class="modal-title" id="myModalLabel">
+                Modal title
+              </h4>
+            </div>
+            <form id="edit_candidate_form" action="">
+              <div class="modal-body">
+              {{ forms|bootstrap }}
+            </div>
+            <div class="modal-footer">
+               
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+              </button> 
+              <button type="submit" class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+            </form>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+
+
+<script src="{% static "js/ajax-setup.js" %}"></script>
+
 
 <script>
+  let url
+
   $('.js-cand-edit').on('click', function(e) {
     e.preventDefault();
-    let url = $(this).find('a').attr('href');
-    let pk = $(this).data('id');
-    let item = $(this).parent();
-    // para o edit
-    let username = $(this).parent().children('nth-childen(2)')
-    let first_name = $(this).parent().children('nth-childen(3)')
-    let last_name = $(this).parent().children('nth-childen(4)')
-    let email = $(this).parent().children('nth-childen(5)')
-    let password = $(this).parent().children('nth-childen(6)')
+    let id_edit = $(this).data('id');
+    url = $(this).data('url');
+    $('#candidate_edit_id').remove();
+    $('#edit_candidate_form').append('<input id="candidate_edit_id" name="candidate_edit_id" style="display:none;" value="' + id_edit + '">');
+    let username = $(this).parent().find('td:first-child').text();
+    let first_name = $(this).parent().find(':nth-child(2)').text();
+    let last_name = $(this).parent().find(':nth-child(3)').text();
+    let email = $(this).parent().find(':nth-child(4)').text();
+    let phone = $(this).parent().find(':nth-child(5)').text();
+    let password = $(this).parent().find(':nth-child(6)').text();
+    $('#id_username').val(username);
+    $('#id_first_name').val(first_name);
+    $('#id_last_name').val(last_name);
+    $('#id_email').val(email);
+    $('#id_phone').val(phone);
+    $('#id_password').val(password);
+    
+  });
+
+  $('#edit_candidate_form').submit(function(e) {
+    e.preventDefault();
+    console.log(url);
+    let pk = $('#candidate_edit_id').val();
+    console.log(pk);
+    let username_ = $('#id_username').val();
+    let first_name_ = $('#id_first_name').val();
+    let last_name_ = $('#id_last_name').val();
+    let email_ = $('#id_email').val();
+    let phone_ = $('#id_phone').val();
+    let password_ = $('#id_password').val();
+    console.log('data', username_, email_);
     $.ajax({
       url: url,
       type: 'POST',
       data: {
         pk: pk,
-        username: username,
-        first_name: first_name,
-        last_name: last_name,
-        email: email,
-        password: password,
+        username: username_,
+        first_name: first_name_,
+        last_name: last_name_,
+        email: email_,
+        phone: phone_,
+        password: password_
       },
       success: function(response) {
-        item.remove();
-        console.log(response);
+        location.reload()
       },
       error: function(xhr, errmsg, err) {
         console.log('Erro');
       },
     })
-  });
-</script>
+  })
 
-<script>
   $('.js-cand-delete').on('click', function(e) {
     e.preventDefault();
     let item = $(this).parent();

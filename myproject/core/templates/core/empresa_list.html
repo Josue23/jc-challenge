@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap %}
+
+{% block content %}
+  <h1>Empresas</h1>
+
+  <a href="{% url 'core:empresa_add' %}" id="empresa_add">
+      <button type="button" class="btn btn-primary">
+        <span class="fa fa-plus"></span> Empresas
+    </button>
+  </a>
+
+  {% if empresas %}
+    <table class="table" >
+        <thead>
+          <tr>
+            <th>Nome da Empresa</th>
+            <th>Descrição da Empresa</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for empresa in empresas %}
+            <tr>
+              <td><span class="fa fa-user"></span> {{ empresa.name}}</td>
+              <td><span class=""></span> {{ empresa.description }}</td>
+
+
+                <!--<a href="{% url 'core:vaga_delete' vaga.pk %}">
+                  <button id="cand_{{ vaga.pk }}"  type="button" class="btn btn-danger js-vaga-delete">
+                      <span class="fa fa-times"></span> Deletar
+                  </button>
+              </a>-->
+
+            </tr>
+          {% endfor %}
+        </tbody>
+  {% else %}
+    <p class="lead alert alert-warning">Nenhuma Empresa cadastrada</p>
+  {% endif %}
+
+
+<script src="{% static "js/ajax-setup.js" %}"></script>
+
+
+
+{% endblock content %}
