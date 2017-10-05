@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% load bootstrap %}
+
+{% block content %}
+  <h1></h1>
+
+  <a href="{% url 'core:escolha_add' %}" id="escolha_add">
+      <button type="button" class="btn btn-primary">
+        <span class="fa fa-plus"></span> Candidate-se a uma vaga
+    </button>
+  </a>
+
+  {% if escolhas %}
+    <table class="table" >
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <!--<th>Empresa</th>-->
+            <th>Pretensão Mínima </th>
+            <th>Pretensão Máxima </th>
+            <th>Experiência</th>
+            <th>Escolaridade</th>
+            <th>Distância</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for escolha in escolhas %}
+            <tr>
+              <td><span class="fa"></span> {{ escolha.name}}</td>
+              <!--<td><span class=""></span> {{ escolha.empresa }}</td>-->
+              <td><span class="fa"></span> {{ escolha.min_salario  }}</td>
+              <td><span class="fa"></span> {{ escolha.max_salario }}</td>
+              <td><span class=""></span> {{ escolha.experiencia  }}</td>
+              <td><span class=""></span> {{ escolha.escolaridade }}</td>
+              <td><span class=""></span> {{ escolha.distancia }}</td>
+
+            </tr>
+          {% endfor %}
+        </tbody>
+        
+  {% else %}
+    <p class="lead alert alert-warning">Nenhuma escolha cadastrada</p>
+  {% endif %}
+
+<script src="{% static "js/ajax-setup.js" %}"></script>
+
+{% endblock content %}

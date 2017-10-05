@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic import CreateView
-from .models import Candidate, Empresa, Vaga 
+from .models import Candidate, Empresa, Vaga, CandidateChoice
 from django import forms
 from .forms import CandidateForm
 
@@ -14,28 +14,39 @@ def home(request):
     return render(request, 'index.html')
 
 
+class EmpresaCreate(CreateView):
+    model = Empresa
+    fields = ['name', 'description']
+    success_url = reverse_lazy('core:empresa_list')
+
+
 class VagaCreate(CreateView):
     model = Vaga
     fields = ['name', 'empresa', 'min_salario',
                  'max_salario', 'experiencia', 'escolaridade', 'distancia']
     success_url = reverse_lazy('core:vaga_list')
 
-class EmpresaCreate(CreateView):
-    model = Empresa
-    fields = ['name', 'description']
-    success_url = reverse_lazy('core:empresa_list')
-'''
-class EmpresaCreate(CreateView):
-    model = Empresa
-    fields = ['name', 'description']
-    success_url = reverse_lazy('core:empresa_list')
-'''
 
 def vaga_list(request):
     vagas = Vaga.objects.all()
     # forms = CandidateForm()
     ctx = {'vagas': vagas}
     return render(request, 'core/vaga_list.html', ctx)
+    # return render(request, 'vaga_list')
+
+
+class EscolhaCreate(CreateView):
+    model = CandidateChoice
+    fields = ['name', 'min_salario',
+                 'max_salario', 'experiencia', 'escolaridade', 'distancia']
+    success_url = reverse_lazy('core:escolha_list')
+
+
+def escolha_list(request):
+    escolhas = CandidateChoice.objects.all()
+    # forms = CandidateForm()
+    ctx = {'escolhas': escolhas}
+    return render(request, 'core/escolha_list.html', ctx)
     # return render(request, 'vaga_list')
 
 
