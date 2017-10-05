@@ -26,8 +26,8 @@ Escolaridade
 
 Distância
 
-# jc-challenge
-## Como rodar a aplicação
+
+### Como rodar a aplicação
 
 git clone https://github.com/Josue23/jc-challenge.git
 
