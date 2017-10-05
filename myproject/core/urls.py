@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 urlpatterns = [
     url(r'^$', v.home, name='home'),
     # url(r'^register/$', v.RegistrationView.as_view(), name="register"),
-	url(r'^login/$', v.login_view, name="login"),
+	url(r'^login/$', v.login, name="login"),
     url(r'^candidate/$', v.candidate_list, name='candidate_list'),
     url(r'^vaga/add/$', v.VagaCreate.as_view(), name='vaga_add'),
     url(r'^empresa/add/$', v.EmpresaCreate.as_view(), name='empresa_add'),
@@ -15,4 +15,9 @@ urlpatterns = [
     url(r'^candidate/(?P<pk>\d+)/edit/$', v.candidate_edit, name='candidate_edit'),
     url(r'^candidate/(?P<pk>\d+)/delete/$',
         v.candidate_delete, name='candidate_delete'),
+
+    # Login/Logout URLs
+    # url(r'^myapp/$', HomeView.as_view(template_name='home.html'), name='home'),
+    # url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='login'),
+    # url(r'^accounts/logout/$', 'django.contrib.auth.views.logout', name='logout'),
 ]

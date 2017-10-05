@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse_lazy
 """
 Django settings for myproject project.
 
@@ -104,3 +105,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+LOGIN_URL = reverse_lazy('login')
+LOGIN_REDIRECT_URL = reverse_lazy('home')

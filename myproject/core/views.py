@@ -24,7 +24,12 @@ class EmpresaCreate(CreateView):
     model = Empresa
     fields = ['name', 'description']
     success_url = reverse_lazy('core:empresa_list')
-
+'''
+class EmpresaCreate(CreateView):
+    model = Empresa
+    fields = ['name', 'description']
+    success_url = reverse_lazy('core:empresa_list')
+'''
 
 def vaga_list(request):
     vagas = Vaga.objects.all()
@@ -40,7 +45,7 @@ def empresa_list(request):
     return render(request, 'core/empresa_list.html', ctx)
 
 
-def login_view(request, *args, **kwargs):
+def login(request, *args, **kwargs):
     if request.user.is_authenticated():
         return HttpResponseRedirect(reverse('home'))
 

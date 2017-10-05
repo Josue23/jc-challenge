@@ -67,3 +67,4 @@ design/
 notes.txt
 nohup.out
 db.sqlite3
+migrations/

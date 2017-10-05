@@ -17,8 +17,8 @@
           <tr>
             <th>Nome</th>
             <th> Empresa </th>
-            <th>Pretensão Mínima </th>
-            <th>Pretensão Máxima </th>
+            <!--<th>Pretensão Mínima </th>
+            <th>Pretensão Máxima </th>-->
             <th>Experiência</th>
             <th>Escolaridade</th>
             <th>Distância</th>
@@ -27,20 +27,14 @@
         <tbody>
           {% for vaga in vagas %}
             <tr>
-              <td><span class="fa fa-user"></span> {{ vaga.name}}</td>
+              <td><span class="fa"></span> {{ vaga.name}}</td>
               <td><span class=""></span> {{ vaga.empresa }}</td>
-              <td><span class="fa fa-envelope"></span> {{ vaga.min_salario  }}</td>
-              <td><span class="fa fa-phone"></span> {{ vaga.max_salario }}</td>
+              <!--<td><span class="fa"></span> {{ vaga.min_salario  }}</td>
+              <td><span class="fa"></span> {{ vaga.max_salario }}</td>-->
               <td><span class=""></span> {{ vaga.experiencia  }}</td>
               <td><span class=""></span> {{ vaga.escolaridade }}</td>
               <td><span class=""></span> {{ vaga.distancia }}</td>
 
-
-                <a href="{% url 'core:vaga_delete' vaga.pk %}">
-                  <button id="cand_{{ vaga.pk }}"  type="button" class="btn btn-danger js-vaga-delete">
-                      <span class="fa fa-times"></span> Deletar
-                  </button>
-              </a>
             </tr>
           {% endfor %}
         </tbody>
