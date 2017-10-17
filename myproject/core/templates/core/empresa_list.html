@@ -7,7 +7,7 @@
 
   <a href="{% url 'core:empresa_add' %}" id="empresa_add">
       <button type="button" class="btn btn-primary">
-        <span class="fa fa-plus"></span> Empresas
+        <span class="fa fa-plus"></span> Cadastrar
     </button>
   </a>
 
@@ -24,17 +24,12 @@
             <tr>
               <td><span class=""></span> {{ empresa.name }}</td>
               <td><span class=""></span> {{ empresa.description }}</td>
-
             </tr>
           {% endfor %}
         </tbody>
   {% else %}
-    <p class="lead alert alert-warning">Nenhuma Empresa cadastrada</p>
+    <p class="lead alert alert-warning">Nenhuma empresa cadastrado</p>
   {% endif %}
-
-
-<script src="{% static "js/ajax-setup.js" %}"></script>
-
 
 
 {% endblock content %}

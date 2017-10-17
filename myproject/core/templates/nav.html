@@ -16,9 +16,16 @@
       <li class="">
         <a href="{% url 'core:candidate_list' %}">Candidatos</a>
       </li>
-      <!--<li class="">
-        <a href="{% url 'core:escolha_list' %}">Escolhas dos usuários</a>
-      </li>-->
+      <li class="">
+        <a href="{% url 'register' %}">Criar conta</a>
+      </li>
+      <li class="">
+      {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Sair</a>
+      {% else %}
+        <a href="{% url 'login' %}">Entrar</a>
+      {% endif %}
+      </li>
     </ul>
   </div>
   
