@@ -40,13 +40,11 @@
            </td>
 
               <!-- delete candidate-->
-              <td id="cand_{{ candidate.pk }}" class="js-cand-delete" data-id="{{ candidate.pk }}">
+              <td class="js-cand-delete" data-id="{{ candidate.pk }}" data-first_name="{{ candidate.first_name }}">
 
-                <a href="{% url 'core:candidate_delete' candidate.pk %}">
-                  <button id="cand_{{ candidate.pk }}"  type="button" class="btn btn-danger js-cand-delete">
-                      <span class="fa fa-user-times"></span> Deletar
-                  </button>
-              </a>
+                <a id="cand_delete_{{ candidate.pk }}" href="#modal-candidate-delete" role="button" class="btn btn-danger" data-toggle="modal"><span class="fa fa-close"></span> Deletar</a>
+             </td>
+                
 
             </tr>
           {% endfor %}
@@ -81,6 +79,38 @@
               </button> 
               <button type="submit" class="btn btn-primary">
                 Save changes
+              </button>
+            </div>
+            </form>
+          </div>
+          
+        </div>
+        
+      </div>
+
+<div class="modal fade" id="modal-candidate-delete" role="dialog" aria-labelledby="myModalLabelDelete" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+               
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                ×
+              </button>
+              <h4 class="modal-title" id="myModalLabel">
+                Modal title
+              </h4>
+            </div>
+            <form id="delete_candidate_form" action="">
+              <div class="modal-body">
+                Tem certeza que voce quer deletar <span id="deletarr"></span>?
+            </div>
+            <div class="modal-footer">
+               
+              <button type="button" class="btn btn-default" data-dismiss="modal">
+                Close
+              </button> 
+              <button type="submit" class="btn btn-danger">
+                Yes
               </button>
             </div>
             </form>
@@ -147,30 +177,35 @@
         location.reload()
       },
       error: function(xhr, errmsg, err) {
-        console.log('Erro');
       },
     })
   })
 
+
   $('.js-cand-delete').on('click', function(e) {
-    e.preventDefault();
-    let item = $(this).parent();
-    let url = $(this).find('a').attr('href');
-    let pk = $(this).data('id');
-    $.ajax({
-      url: url,
-      type: 'POST',
-      data: {
-        pk: pk,
-      },
-      success: function(response) {
-        item.remove();
-        console.log(response);
-      },
-      error: function(xhr, errmsg, err) {
-        console.log('Erro');
-      },
-    })
+    let first_name = $(this).data('first_name');
+    $('#deletarr').html(first_name);
   });
+
+  // $('.js-cand-delete').on('click', function(e) {
+  //   e.preventDefault();
+  //   let item = $(this).parent();
+  //   let url = $(this).find('a').attr('href');
+  //   let pk = $(this).data('id');
+  //   $.ajax({
+  //     url: url,
+  //     type: 'POST',
+  //     data: {
+  //       pk: pk,
+  //     },
+  //     success: function(response) {
+  //       item.remove();
+  //       // console.log(response);
+  //     },
+  //     error: function(xhr, errmsg, err) {
+  //       console.log('Erro');
+  //     },
+  //   })
+  // });
 </script>
 {% endblock content %}
