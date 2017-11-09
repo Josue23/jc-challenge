@@ -49,7 +49,7 @@ def escolha_list(request):
 
 
 def empresa_list(request):
-    empresas = Vaga.objects.all()
+    empresas = Empresa.objects.all()
     ctx = {'empresas': empresas}
     return render(request, 'core/empresa_list.html', ctx)
 
