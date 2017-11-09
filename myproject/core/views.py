@@ -4,14 +4,11 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.core.urlresolvers import reverse_lazy, reverse
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import get_user_model
 from django.views.generic import View, TemplateView, CreateView
 from .models import Candidate, Empresa, Vaga, CandidateChoice
-from django import forms
-
-CandidateForm = get_user_model()
-User = get_user_model()
+from .forms import CandidateForm
 
 def home(request):
     return render(request, 'index.html')
